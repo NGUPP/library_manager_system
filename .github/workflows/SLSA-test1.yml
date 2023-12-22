@@ -1,0 +1,35 @@
+name: SLSA Maven Build
+
+on:
+  push:
+    branches:
+      - main  # 替换成你的默认分支名称
+  pull_request:
+    branches:
+      - main  # 替换成你的默认分支名称
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # 替换成你所需的 Java 版本
+
+      - name: SLSA Maven Build
+        uses: slsa-framework/slsa-github-generator/.github/workflows/builder_maven_slsa3.yml@v1.9.0
+        with:
+          option: value  # 传递任何必要的参数给 Maven 构建器
+
+      # 可以在这里添加其他步骤，例如测试、部署等
+
